@@ -74,8 +74,6 @@ def dfs(path, depth, end):
 				if next_path[-1]==end:
 					return next_path
 
-def heuristic():
-    if
 """
 
 
