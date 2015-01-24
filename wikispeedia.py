@@ -88,26 +88,38 @@ def dfs(path, depth, end):
 				if next_path[-1]==end:
 					return next_path
 
-"""
+def heuristic(curr_url, goal_word):
+    word_list = word_search(curr_url)
+    i = 0
+    for word in word_list:
+        if word == goal_word:
+            i = 1
+    return i
 
-
-
-
-	INSERT CODE FOR A* SEARCH HERE
-	Note you use indenting instead of {} brackets in Python
-
-
-
-
-"""
+def a_star(start, end, stop_time):
+    frontier = PriorityQueue()
+    frontier.put(start, 0)
+    came_from = {}
+    cost_so_far = {}
+    cam_from[start] = None
+    cost_so_far[start] = 0
+    path = [start]
+    starttime = time.clock()
+    time1 = starttime
+    
+   
+                
 
 starting_url = "http://en.wikipedia.org/wiki/Pie_melon" #Insert starting URL
 ending_url = "http://en.wikipedia.org/wiki/Carrot" #Insert the ending URL
 
 stop_time=300 #Number of seconds before program stops
 
-idpath=id_dfs(starting_url,ending_url, stop_time)
+heu = heuristic(starting_url, 'carrot')
+print heu
 
-print idpath
+#idpath=id_dfs(starting_url,ending_url, stop_time)
+
+#print idpath
 
 #Or print "No solution found in the given time frame"  if this is true.
