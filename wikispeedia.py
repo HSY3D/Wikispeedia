@@ -3,7 +3,21 @@ import numpy as np
 import math
 import re
 import time
+import heapq
 
+class PriorityQueue:
+    def __init__(self):
+        self.elements = []
+
+    def empty(self):
+        return len(self.elements) == 0
+        
+    def put(self, item, priority):
+        heapq.heappush(self.elements, (priority, item))
+        
+    def get(self):
+        return heapq.headpop(self.elements)[1]
+        
 #Input is a URL
 #Output is a list of the Wikipedia hyperlinks in that webpage
 def url_search(input_url):
