@@ -16,7 +16,7 @@ class PriorityQueue:
         heapq.heappush(self.elements, (priority, item))
         
     def get(self):
-        return heapq.headpop(self.elements)[1]
+        return heapq.heappop(self.elements)[1]
         
 #Input is a URL
 #Output is a list of the Wikipedia hyperlinks in that webpage
@@ -57,7 +57,7 @@ def word_search(url):
 def id_dfs(start, end, stop_time):
 	
 	depth=0			
-	starttime=time.clock()
+	starttime=time.time()
 	time1=starttime
 
 	while (time1-starttime)<stop_time:
@@ -67,7 +67,7 @@ def id_dfs(start, end, stop_time):
 		if path != None:
 			if path[-1]==end:
 				return path
-		time1=time.clock()
+		time1=time.time()
 
 
 #Actual depth first search algorithm
@@ -90,33 +90,52 @@ def dfs(path, depth, end):
 
 def heuristic(curr_url, goal_word):
     word_list = word_search(curr_url)
-    i = 0
+    i = 1
     for word in word_list:
+#        print word        
         if word == goal_word:
-            i = 1
+            i = 0
+            break
     return i
 
-def a_star(start, end, stop_time):
-    frontier = PriorityQueue()
-    frontier.put(start, 0)
+def a_star(start, end, goal_word, stoptime):
+    #Initialize Priority Queue with starting URL and set priority to 0 (lowest)    
+    pq = PriorityQueue()
+    pq.put(start, 0)
+    #Init other variables
     came_from = {}
     cost_so_far = {}
-    cam_from[start] = None
+    came_from[start] = None
     cost_so_far[start] = 0
-    path = [start]
-    starttime = time.clock()
-    time1 = starttime
-    
+    #start the clock
+    starttime = time.time()
+    time1=starttime
    
-                
-
+    while not pq.empty():
+        current = pq.get()
+       
+        if current == end:
+            break
+        
+        for nextURL in url_search(current):
+            new_cost = cost_so_far[current] + heuristic(nextURL, goal_word)
+            print nextURL
+            if nextURL not in cost_so_far or new_cost < cost_so_far[nextURL]:
+                cost_so_far[nextURL] = new_cost
+                priority = new_cost + heuristic(nextURL, goal_word)
+                pq.put(nextURL, priority)
+                came_from[nextURL] = current
+    
+    print came_from
+    print cost_so_far
+    return came_from, cost_so_far
+    
 starting_url = "http://en.wikipedia.org/wiki/Pie_melon" #Insert starting URL
 ending_url = "http://en.wikipedia.org/wiki/Carrot" #Insert the ending URL
 
 stop_time=300 #Number of seconds before program stops
 
-heu = heuristic(starting_url, 'carrot')
-print heu
+a_star(starting_url, ending_url, 'carrot', stop_time)
 
 #idpath=id_dfs(starting_url,ending_url, stop_time)
 
