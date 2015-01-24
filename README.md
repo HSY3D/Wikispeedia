@@ -1,2 +1,2 @@
 # Wikispeedia
-A* implementation in Python to play Wikispeedia game.
+A* search implementation in Python to play Wikispeedia game.
